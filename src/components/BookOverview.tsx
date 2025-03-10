@@ -12,9 +12,6 @@ const BookOverview = ({
   description,
   coverColor,
   coverUrl,
-  videoUrl,
-  summary,
-  isLoaned,
 }: Book) => {
   return (
     <section className="book-overview">

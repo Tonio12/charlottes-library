@@ -8,7 +8,7 @@ export default function Home() {
       <BookOverview {...sampleBooks[0]} />
       <BookList
         title="Latest Books"
-        containerClass="mt-28"
+        containerClassName="mt-28"
         books={sampleBooks}
       />
     </>

@@ -76,6 +76,7 @@ export const sampleBooks = [
     id: 2,
     title: 'Atomic Habits',
     author: 'James Clear',
+    isLoaned: true,
     genre: 'Self-Help / Productivity',
     rating: 4.9,
     totalCopies: 99,
