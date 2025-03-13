@@ -2,7 +2,7 @@ import BookList from '@/components/BookList'
 import BookOverview from '@/components/BookOverview'
 import { sampleBooks } from '@/constants'
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <BookOverview {...sampleBooks[0]} />
