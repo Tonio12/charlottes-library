@@ -11,7 +11,7 @@ import {
 } from 'react-hook-form'
 import { ZodType } from 'zod'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/src/components/ui/button'
 import {
   Form,
   FormControl,
@@ -19,13 +19,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from '@/src/components/ui/form'
+import { Input } from '@/src/components/ui/input'
 import Link from 'next/link'
-import { FIELD_NAMES, FIELD_TYPES } from '@/constants'
+import { FIELD_NAMES, FIELD_TYPES } from '@/src/constants'
 
 import { useRouter } from 'next/navigation'
 import ImageUpload from './ImageUpload'
+import { toast } from 'sonner'
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>
@@ -52,22 +53,17 @@ const AuthForm = <T extends FieldValues>({
   const handleSubmit: SubmitHandler<T> = async (data) => {
     const result = await onSubmit(data)
 
-    // if (result.success) {
-    //   toast({
-    //     title: 'Success',
-    //     description: isSignIn
-    //       ? 'You have successfully signed in.'
-    //       : 'You have successfully signed up.',
-    //   })
+    if (result.success) {
+      toast.success(
+        isSignIn
+          ? 'You have successfully signed in.'
+          : 'You have successfully signed up.'
+      )
 
-    //   router.push('/')
-    // } else {
-    //   toast({
-    //     title: `Error ${isSignIn ? 'signing in' : 'signing up'}`,
-    //     description: result.error ?? 'An error occurred.',
-    //     variant: 'destructive',
-    //   })
-    // }
+      router.push('/')
+    } else {
+      toast.error(`Error ${isSignIn ? 'signing in' : 'signing up'}`)
+    }
   }
 
   return (

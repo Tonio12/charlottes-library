@@ -1,8 +1,8 @@
 'use client'
 
-import AuthForm from '@/components/AuthForm'
-import { signUpSchema } from '@/lib/validations'
-import React from 'react'
+import AuthForm from '@/src/components/AuthForm'
+import { signUp } from '@/src/lib/actions/auth'
+import { signUpSchema } from '@/src/lib/validations'
 
 const page = () => {
   return (
@@ -12,12 +12,12 @@ const page = () => {
         defaultValues={{
           fullName: '',
           email: '',
-          universityId: '',
+          universityId: 0,
           universityCard: '',
           password: '',
         }}
         type="SIGN_UP"
-        onSubmit={() => {}}
+        onSubmit={signUp}
       />
     </div>
   )

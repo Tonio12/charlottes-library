@@ -1,4 +1,4 @@
-import config from '@/lib/config'
+import config from '@/src/lib/config'
 import ImageKit from 'imagekit'
 import { NextResponse } from 'next/server'
 

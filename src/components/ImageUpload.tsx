@@ -1,5 +1,5 @@
 'use client'
-import config from '@/lib/config'
+import config from '@/src/lib/config'
 import { IKImage, ImageKitProvider, IKUpload } from 'imagekitio-next'
 import { useRef, useState } from 'react'
 import Image from 'next/image'
