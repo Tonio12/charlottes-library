@@ -11,7 +11,6 @@ interface Book {
   coverColor: string
   videoUrl: string
   summary: string
-  isLoaned: boolean
 }
 
 interface AuthCredentials {
