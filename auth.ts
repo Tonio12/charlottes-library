@@ -1,24 +1,23 @@
 import NextAuth, { User } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
 import { db } from './database/drizzle'
 import { usersTable } from './database/schema'
 import { eq } from 'drizzle-orm'
 import { compare } from 'bcryptjs'
+import Credentials from 'next-auth/providers/credentials'
+import { signInSchema } from './src/lib/validations'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: 'jwt',
   },
   providers: [
-    CredentialsProvider({
+    Credentials({
+      credentials: {
+        email: {},
+        password: {},
+      },
       async authorize(credentials) {
-        const { email, password } = credentials as {
-          email: string
-          password: string
-        }
-        if (!email || !password) {
-          return null
-        }
+        const { email, password } = await signInSchema.parseAsync(credentials)
 
         const user = await db
           .select()
