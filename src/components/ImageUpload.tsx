@@ -5,6 +5,18 @@ import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { toast } from 'sonner'
 
+interface IKUploadResponse {
+  fileId: string
+  name: string
+  size: number
+  filePath: string
+  url: string
+  fileType: string
+  height?: number
+  width?: number
+  thumbnailUrl: string
+}
+
 const authenticator = async () => {
   try {
     const response = await fetch(`${config.env.apiUrl}/api/auth/imagekit`, {})
@@ -19,8 +31,11 @@ const authenticator = async () => {
     const data = await response.json()
     const { token, expire, signature } = data
     return { token, expire, signature }
-  } catch (error: any) {
-    throw new Error('Failed to authenticate: ' + error.message)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error('Failed to authenticate: ' + error.message)
+    }
+    throw new Error('Failed to authenticate: Unknown error')
   }
 }
 
@@ -37,13 +52,12 @@ const ImageUpload = ({
 
   const ikUploadRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<{ filePath: string } | null>(null)
-  const onError = (error: any) => {
+  const onError = () => {
     toast.error('Failed to upload file')
   }
-  const onSuccess = (res: any) => {
+  const onSuccess = (res: IKUploadResponse) => {
     setFile(res)
     onFileChange(res.filePath)
-
     toast.success('File uploaded successfully')
   }
 
