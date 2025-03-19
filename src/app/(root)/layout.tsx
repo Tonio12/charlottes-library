@@ -16,6 +16,16 @@ async function layout({ children }: { children: React.ReactNode }) {
   after(async () => {
     if (!session?.user?.id) return
 
+    //get users and session and update lastActivityDate
+    const user = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, session.user.id))
+      .limit(1)
+
+    if (user[0]?.lastActivityDate === new Date().toISOString().slice(0, 10))
+      return
+
     await db
       .update(usersTable)
       .set({ lastActivityDate: new Date().toISOString().slice(0, 10) })
