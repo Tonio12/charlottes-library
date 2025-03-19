@@ -62,7 +62,7 @@ const AuthForm = <T extends FieldValues>({
 
       router.push('/')
     } else {
-      toast.error(`Error ${isSignIn ? 'signing in' : 'signing up'}`)
+      toast.error(`Error: ${result.error}`)
     }
   }
 

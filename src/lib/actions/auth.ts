@@ -59,6 +59,7 @@ const signUp = async (credentials: AuthCredentials) => {
   const { success } = await ratelimit.limit(ip)
 
   if (!success) {
+    console.log('Too many requests')
     return {
       success: false,
       error: 'Too many requests',
@@ -72,6 +73,7 @@ const signUp = async (credentials: AuthCredentials) => {
     .limit(1)
 
   if (user.length > 0) {
+    console.log('User already exists')
     return {
       success: false,
       error: 'User already exists',
@@ -106,7 +108,8 @@ const signUp = async (credentials: AuthCredentials) => {
       success: true,
       message: 'User created successfully',
     }
-  } catch {
+  } catch (err) {
+    console.log('Something went wrong: ', err)
     return {
       success: false,
       error: 'Something went wrong',
