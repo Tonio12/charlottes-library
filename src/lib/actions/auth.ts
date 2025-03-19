@@ -91,6 +91,8 @@ const signUp = async (credentials: AuthCredentials) => {
       universityCard,
     })
 
+    console.log(config.env.prodApiUrl)
+
     await workflowClient.trigger({
       url: `${config.env.prodApiUrl}/api/workflow/onboarding`,
       body: {
