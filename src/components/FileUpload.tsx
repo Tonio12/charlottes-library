@@ -47,6 +47,7 @@ interface FileUploadProps {
   placeholder: string
   folder: string
   variant?: 'light' | 'dark'
+  value?: string
 }
 
 const FileUpload = ({
@@ -56,6 +57,7 @@ const FileUpload = ({
   placeholder,
   folder,
   variant,
+  value,
 }: FileUploadProps) => {
   const {
     env: {
@@ -64,7 +66,9 @@ const FileUpload = ({
   } = config
 
   const ikUploadRef = useRef<HTMLInputElement>(null)
-  const [file, setFile] = useState<{ filePath: string } | null>(null)
+  const [file, setFile] = useState<{ filePath: string } | null>({
+    filePath: value ?? '',
+  })
   const [progress, setProgress] = useState(0)
 
   const styles = {

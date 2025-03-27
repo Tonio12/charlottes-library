@@ -30,3 +30,21 @@ export const usersTable = pgTable('users', {
     .notNull()
     .defaultNow(),
 })
+
+export const booksTable = pgTable('books', {
+  id: uuid('id').notNull().primaryKey().unique().defaultRandom(),
+  title: varchar('title', { length: 255 }).notNull(),
+  author: varchar('author', { length: 255 }).notNull(),
+  genre: varchar('genre', { length: 255 }).notNull(),
+  rating: integer('rating').notNull().default(1),
+  totalCopies: integer('total_copies').notNull(),
+  availableCopies: integer('available_copies').notNull(),
+  description: text('description').notNull(),
+  coverUrl: text('cover_url').notNull(),
+  coverColor: varchar('cover_color', { length: 7 }).notNull(),
+  videoUrl: text('video_url').notNull(),
+  summary: text('summary').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+})
