@@ -25,8 +25,8 @@ import Link from 'next/link'
 import { FIELD_NAMES, FIELD_TYPES } from '@/src/constants'
 
 import { useRouter } from 'next/navigation'
-import ImageUpload from './ImageUpload'
 import { toast } from 'sonner'
+import FileUpload from './FileUpload'
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>
@@ -93,7 +93,14 @@ const AuthForm = <T extends FieldValues>({
                   </FormLabel>
                   <FormControl>
                     {field.name === 'universityCard' ? (
-                      <ImageUpload onFileChange={field.onChange} />
+                      <FileUpload
+                        type="image"
+                        accept="images/*"
+                        placeholder="Upload a university ID"
+                        folder="ids"
+                        variant="dark"
+                        onFileChange={field.onChange}
+                      />
                     ) : (
                       <Input
                         required
