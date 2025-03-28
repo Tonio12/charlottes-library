@@ -48,3 +48,18 @@ export const booksTable = pgTable('books', {
     .notNull()
     .defaultNow(),
 })
+
+export const burrowRecords = pgTable('burrow_records', {
+  id: uuid('id').notNull().primaryKey().unique().defaultRandom(),
+  userId: uuid('user_id').references(() => usersTable.id),
+  bookId: uuid('book_id').references(() => booksTable.id),
+  burrowDate: timestamp('burrow_date', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  dueDate: date('due_date').notNull(),
+  returnDate: date('return_date'),
+  status: BURROW_STATUS_ENUM('status').default('BURROWED').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+})

@@ -15,6 +15,13 @@
       "when": 1743086218469,
       "tag": "0001_flawless_ulik",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1743157753429,
+      "tag": "0002_public_mister_sinister",
+      "breakpoints": true
     }
   ]
 }

@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import { db } from '@/database/drizzle'
 import { booksTable } from '@/database/schema'
 import BookOverview from '@/src/components/BookOverview'
@@ -6,6 +7,7 @@ import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
 const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const session = await auth()
   const slug = (await params).slug
 
   const [bookDetails] = await db
@@ -21,7 +23,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   console.log(bookDetails.videoUrl)
   return (
     <>
-      <BookOverview {...bookDetails} />
+      <BookOverview {...bookDetails} userId={session?.user?.id as string} />
 
       <div className="book-details">
         <div className="flex-[1.5]">
