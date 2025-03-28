@@ -28,7 +28,7 @@ const BookOverview = async ({
     .where(eq(usersTable.id, userId))
 
   const burrowingEligibility = {
-    isEligible: availableCopies > 0 && user.status === 'APPROVED',
+    isEligible: availableCopies > 0 && user?.status === 'APPROVED',
     message:
       availableCopies > 0 ? 'You can borrow this book' : 'No copies available',
   }
