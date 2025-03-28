@@ -1,9 +1,12 @@
 import { signOut } from '@/auth'
+import { db } from '@/database/drizzle'
+import { booksTable } from '@/database/schema'
 import BookList from '@/src/components/BookList'
 import { Button } from '@/src/components/ui/button'
-import { sampleBooks } from '@/src/constants'
 
-const page = () => {
+const page = async () => {
+  const books = await db.select().from(booksTable).limit(5)
+  console.log(books)
   return (
     <>
       <form
@@ -14,11 +17,7 @@ const page = () => {
       >
         <Button>Logout</Button>
       </form>
-      <BookList
-        containerClassName=""
-        title="Burrowed Books"
-        books={sampleBooks}
-      />
+      <BookList containerClassName="" title="Burrowed Books" books={books} />
     </>
   )
 }
