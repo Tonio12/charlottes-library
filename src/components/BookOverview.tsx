@@ -27,8 +27,6 @@ const BookOverview = async ({
     .from(usersTable)
     .where(eq(usersTable.id, userId))
 
-  if (!user) return null
-
   const burrowingEligibility = {
     isEligible: availableCopies > 0 && user.status === 'APPROVED',
     message:
@@ -62,11 +60,13 @@ const BookOverview = async ({
 
         <p className="book-description">{description}</p>
 
-        <BurrowBook
-          bookId={id}
-          userId={userId}
-          burrowingEligibility={burrowingEligibility}
-        />
+        {user && (
+          <BurrowBook
+            bookId={id}
+            userId={userId}
+            burrowingEligibility={burrowingEligibility}
+          />
+        )}
       </div>
 
       <div className="relative flex flex-1 justify-center">
