@@ -5,7 +5,7 @@ import '@/src/styles/admin.css'
 import { db } from '@/database/drizzle'
 import { usersTable } from '@/database/schema'
 import { eq } from 'drizzle-orm'
-import Sidebar from '../../components/admin/Sidebar'
+import Sidebar from '@/components/admin/Sidebar'
 import Header from '@/components/Header'
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth()
