@@ -10,6 +10,8 @@ const BookList = ({
   books: Book[]
   containerClassName: string
 }) => {
+  if (books.length < 2) return
+
   return (
     <section className={containerClassName}>
       <h2 className="font-bebas-neue text-4xl text-dark-100">{title}</h2>

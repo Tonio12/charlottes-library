@@ -1,5 +1,5 @@
 interface Book {
-  id: number
+  id: string
   title: string
   author: string
   genre: string
@@ -11,6 +11,7 @@ interface Book {
   coverColor: string
   videoUrl: string
   summary: string
+  createdAt: Date
 }
 
 interface AuthCredentials {
@@ -19,4 +20,17 @@ interface AuthCredentials {
   password: string
   universityId: number
   universityCard: string
+}
+
+interface BookParams {
+  title: string
+  author: string
+  genre: string
+  rating: number
+  totalCopies: number
+  description: string
+  coverUrl: string
+  coverColor: string
+  videoUrl: string
+  summary: string
 }

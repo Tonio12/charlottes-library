@@ -1,15 +1,22 @@
+import { db } from '@/database/drizzle'
+import { booksTable } from '@/database/schema'
 import BookList from '@/src/components/BookList'
 import BookOverview from '@/src/components/BookOverview'
-import { sampleBooks } from '@/src/constants'
+import { desc } from 'drizzle-orm'
 
 export default async function Home() {
+  const latestBooks = (await db
+    .select()
+    .from(booksTable)
+    .orderBy(desc(booksTable.createdAt))
+    .limit(10)) as Book[]
   return (
     <>
-      <BookOverview {...sampleBooks[0]} />
+      <BookOverview {...latestBooks[0]} />
       <BookList
         title="Latest Books"
         containerClassName="mt-28"
-        books={sampleBooks}
+        books={latestBooks.slice(1)}
       />
     </>
   )

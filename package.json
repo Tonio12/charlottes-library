@@ -10,7 +10,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "db:push": "drizzle-kit push:pg"
+    "db:push": "drizzle-kit push:pg",
+    "db:seed": "npx tsx database/seed.ts"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
