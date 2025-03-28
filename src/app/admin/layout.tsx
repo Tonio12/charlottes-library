@@ -2,11 +2,11 @@ import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import '@/src/styles/admin.css'
-import Sidebar from '@/src/components/admin/Sidebar'
-import Header from '@/src/components/admin/Header'
 import { db } from '@/database/drizzle'
 import { usersTable } from '@/database/schema'
 import { eq } from 'drizzle-orm'
+import Sidebar from '@/components/admin/Sidebar'
+import Header from '@/components/Header'
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth()
 
