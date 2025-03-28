@@ -34,3 +34,8 @@ interface BookParams {
   videoUrl: string
   summary: string
 }
+
+interface BurrowBookParams {
+  bookId: string
+  userId: string
+}
