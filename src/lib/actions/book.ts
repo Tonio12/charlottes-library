@@ -4,6 +4,8 @@ import { db } from '@/database/drizzle'
 import { booksTable, burrowRecords } from '@/database/schema'
 import { eq } from 'drizzle-orm'
 import dayjs from 'dayjs'
+import { workflowClient } from '../workflow'
+import config from '../config'
 
 export const burrowBook = async (params: BurrowBookParams) => {
   const { userId, bookId } = params
@@ -37,6 +39,15 @@ export const burrowBook = async (params: BurrowBookParams) => {
         availableCopies: book[0].availableCopies - 1,
       })
       .where(eq(booksTable.id, bookId))
+
+    await workflowClient.trigger({
+      url: `${config.env.prodApiUrl}/api/workflow/burrow-reminder`,
+      body: {
+        userId,
+        bookId,
+        dueDate,
+      },
+    })
 
     return {
       success: true,

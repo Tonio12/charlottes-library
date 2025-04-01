@@ -4,7 +4,6 @@ import React from 'react'
 import config from '../lib/config'
 
 const BookVideo = ({ videoUrl }: { videoUrl: string }) => {
-  console.log(videoUrl)
   return (
     <ImageKitProvider
       publicKey={config.env.imagekit.publicKey}
