@@ -8,7 +8,7 @@ const config = {
       urlEndpoint: process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!,
     },
     databaseUrl: process.env.DATABASE_URL!,
-    uptash: {
+    upstash: {
       redisUrl: process.env.UPSTASH_REDIS_URL!,
       redisToken: process.env.UPSTASH_REDIS_TOKEN!,
       qstashUrl: process.env.QSTASH_URL!,
