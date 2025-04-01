@@ -7,7 +7,7 @@ export const workflowClient = new WorkflowClient({
   token: config.env.upstash.qstashToken,
 })
 
-const qstashClient = new QstashClient({ token: config.env.upstash.qstashToken })
+const qstashClient = new QstashClient({ token: process.env.QSTASH_TOKEN! })
 
 export const sendEmail = async ({
   email,
