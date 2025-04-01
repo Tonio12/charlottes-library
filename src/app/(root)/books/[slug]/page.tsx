@@ -19,8 +19,6 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   if (!bookDetails) {
     redirect('/404')
   }
-
-  console.log(bookDetails.videoUrl)
   return (
     <>
       <BookOverview {...bookDetails} userId={session?.user?.id as string} />
