@@ -28,5 +28,8 @@ export const sendEmail = async ({
       subject: subject,
       html: message,
     },
+    headers: {
+      Authorization: `Bearer ${config.env.upstash.qstashSigningToken}`,
+    },
   })
 }
