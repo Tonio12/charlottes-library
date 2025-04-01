@@ -6,7 +6,6 @@ import { Button } from '@/src/components/ui/button'
 
 const page = async () => {
   const books = await db.select().from(booksTable).limit(5)
-  console.log(books)
   return (
     <>
       <form

@@ -3,11 +3,11 @@ import config from './config'
 import { Client as QstashClient, resend } from '@upstash/qstash'
 
 export const workflowClient = new WorkflowClient({
-  baseUrl: config.env.uptash.qstashUrl,
-  token: config.env.uptash.qstashToken,
+  baseUrl: config.env.upstash.qstashUrl,
+  token: config.env.upstash.qstashToken,
 })
 
-const qstashClient = new QstashClient({ token: config.env.uptash.qstashToken })
+const qstashClient = new QstashClient({ token: config.env.upstash.qstashToken })
 
 export const sendEmail = async ({
   email,
