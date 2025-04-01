@@ -3,7 +3,6 @@ import config from './config'
 import { Client as QstashClient, resend } from '@upstash/qstash'
 
 export const workflowClient = new WorkflowClient({
-  baseUrl: process.env.QSTASH_URL!,
   token: process.env.QSTASH_TOKEN!,
 })
 
