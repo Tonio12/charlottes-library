@@ -1,6 +1,6 @@
 import { db } from '@/database/drizzle'
 import { usersTable } from '@/database/schema'
-import { sendEmail } from '@/src/lib/workflow'
+import config from '@/src/lib/config'
 import { serve } from '@upstash/workflow/nextjs'
 import { eq } from 'drizzle-orm'
 
@@ -37,12 +37,14 @@ const getUserState = async (email: string): Promise<UserState> => {
 export const { POST } = serve<InitialData>(async (context) => {
   const { email, fullName } = context.requestPayload
 
-  await context.run('new-signup', async () => {
-    await sendEmail({
-      email,
+  await context.api.resend.call('send email', {
+    token: config.env.resendToken,
+    body: {
+      from: 'Antonio F Nelson <contact@antonionelson.tech>',
+      to: [email],
       subject: 'Welcome to the platform',
-      message: `Welcome ${fullName} to the platform`,
-    })
+      html: `<p>Welcome ${fullName} to the platform</p>`,
+    },
   })
 
   await context.sleep('wait-for-3-days', 60 * 60 * 24 * 3)
@@ -54,18 +56,26 @@ export const { POST } = serve<InitialData>(async (context) => {
 
     if (state === 'non-active') {
       await context.run('send-email-non-active', async () => {
-        await sendEmail({
-          email,
-          subject: 'Are you still with us?',
-          message: `Hey ${fullName}, we noticed you haven't been around lately. We're here if you need anything!`,
+        await context.api.resend.call('send email', {
+          token: config.env.resendToken,
+          body: {
+            from: 'Antonio F Nelson <contact@antonionelson.tech>',
+            to: [email],
+            subject: 'Are you still with us?',
+            html: `<p>Hey ${fullName}, we noticed you haven't been around lately. We're here if you need anything!</p>`,
+          },
         })
       })
     } else if (state === 'active') {
       await context.run('send-email-active', async () => {
-        await sendEmail({
-          email,
-          subject: 'Welcome Back!',
-          message: `Hey ${fullName}, good to see you again!`,
+        await context.api.resend.call('send email', {
+          token: config.env.resendToken,
+          body: {
+            from: 'Antonio F Nelson <contact@antonionelson.tech>',
+            to: [email],
+            subject: 'Welcome Back!',
+            html: `<p>Hey ${fullName}, good to see you again!</p>`,
+          },
         })
       })
     }

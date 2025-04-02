@@ -1,6 +1,6 @@
 import { db } from '@/database/drizzle'
 import { booksTable, usersTable } from '@/database/schema'
-import { sendEmail } from '@/src/lib/workflow'
+import config from '@/src/lib/config'
 import { serve } from '@upstash/workflow/nextjs'
 import { eq } from 'drizzle-orm'
 
@@ -24,11 +24,13 @@ export const { POST } = serve<InitialData>(async (context) => {
     .where(eq(booksTable.id, bookId))
     .limit(1)
 
-  await context.run('send-email', async () => {
-    await sendEmail({
-      email: user[0].email,
+  await context.api.resend.call('send email', {
+    token: config.env.resendToken,
+    body: {
+      from: 'Antonio F Nelson <contact@antonionelson.tech>',
+      to: [user[0].email],
       subject: `${book[0].title} burrowed Successfully`,
-      message: `You have successfully borrowed ${book[0].title} from the library. Please return it on ${dueDate}`,
-    })
+      html: `<p>You have successfully borrowed ${book[0].title} from the library. Please return it on ${dueDate}</p>`,
+    },
   })
 })
