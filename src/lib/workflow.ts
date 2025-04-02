@@ -8,11 +8,23 @@ console.log(
   config.env.upstash.qstashToken ? 'Token exists' : 'Token is missing'
 )
 
-export const workflowClient = new WorkflowClient({
-  token: config.env.upstash.qstashToken,
-})
+// Create a function to get the workflow client
+export const getWorkflowClient = () => {
+  if (!config.env.upstash.qstashToken) {
+    throw new Error('QStash token is not configured')
+  }
+  return new WorkflowClient({
+    token: config.env.upstash.qstashToken,
+  })
+}
 
-const qstashClient = new QstashClient({ token: config.env.upstash.qstashToken })
+// Create a function to get the QStash client
+const getQstashClient = () => {
+  if (!config.env.upstash.qstashToken) {
+    throw new Error('QStash token is not configured')
+  }
+  return new QstashClient({ token: config.env.upstash.qstashToken })
+}
 
 export const sendEmail = async ({
   email,
@@ -24,6 +36,7 @@ export const sendEmail = async ({
   message: string
 }) => {
   try {
+    const qstashClient = getQstashClient()
     await qstashClient.publishJSON({
       api: {
         name: 'email',
