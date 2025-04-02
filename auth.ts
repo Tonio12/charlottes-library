@@ -17,25 +17,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       async authorize(credentials) {
-        const { email, password } = await signInSchema.parseAsync(credentials)
+        if (!credentials?.email || !credentials?.password) {
+          return null
+        }
 
-        const user = await db
-          .select()
-          .from(usersTable)
-          .where(eq(usersTable.email, email.toString()))
-          .limit(1)
+        try {
+          const validatedCredentials =
+            await signInSchema.parseAsync(credentials)
+          const { email, password } = validatedCredentials
 
-        if (!user) return null
+          const user = await db
+            .select()
+            .from(usersTable)
+            .where(eq(usersTable.email, email))
+            .limit(1)
 
-        const isValidPassword = await compare(password, user[0].password)
+          if (!user.length) return null
 
-        if (!isValidPassword) return null
+          const isValidPassword = await compare(password, user[0].password)
 
-        return {
-          id: user[0].id.toString(),
-          email: user[0].email.toString(),
-          name: user[0].fullName.toString(),
-        } as User
+          if (!isValidPassword) return null
+
+          return {
+            id: user[0].id.toString(),
+            email: user[0].email.toString(),
+            name: user[0].fullName.toString(),
+          } as User
+        } catch (error) {
+          console.error('Auth error:', error)
+          return null
+        }
       },
     }),
   ],
