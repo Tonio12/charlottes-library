@@ -12,11 +12,11 @@ const UserProfile = ({ user }: { user: User }) => {
       <div className="flex gap-5 items-start">
         <Avatar>
           <AvatarFallback className="bg-amber-100 rounded-full p-2">
-            {getUserInitial(user.name!)}
+            {getUserInitial(user.fullName!)}
           </AvatarFallback>
         </Avatar>
         <div>
-          <h3 className="text-light-100 text-2xl font-bold">{user.name}</h3>
+          <h3 className="text-light-100 text-2xl font-bold">{user.fullName}</h3>
           <p className="text-light-100 text-sm">{user.email}</p>
         </div>
       </div>

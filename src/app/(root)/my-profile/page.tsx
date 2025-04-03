@@ -14,7 +14,7 @@ const page = async () => {
   const userDetails = await db
     .select()
     .from(usersTable)
-    .where(eq(usersTable.id, user!.id))
+    .where(eq(usersTable.id, user!.id!))
     .limit(1)
 
   return (
@@ -28,7 +28,7 @@ const page = async () => {
         <Button>Logout</Button>
       </form>
       <div className="mt-10 flex flex-col items-start gap-14 lg:flex-row">
-        <UserProfile user={userDetails!} />
+        <UserProfile user={userDetails[0]!} />
         <BookList containerClassName="" title="Burrowed Books" books={books} />
       </div>
     </>
