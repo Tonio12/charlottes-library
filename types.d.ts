@@ -39,3 +39,10 @@ interface BurrowBookParams {
   bookId: string
   userId: string
 }
+
+interface User {
+  fullName: string
+  email: string
+  universityId: number
+  universityCard: string
+}
