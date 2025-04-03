@@ -1,5 +1,6 @@
 import { db } from '@/database/drizzle'
 import { usersTable } from '@/database/schema'
+import WelcomeEmail from '@/src/emails/Welcome'
 import config from '@/src/lib/config'
 import { serve } from '@upstash/workflow/nextjs'
 import { eq } from 'drizzle-orm'
@@ -43,7 +44,7 @@ export const { POST } = serve<InitialData>(async (context) => {
       from: 'Antonio F Nelson <contact@antonionelson.tech>',
       to: [email],
       subject: 'Welcome to the platform',
-      html: `<p>Welcome ${fullName} to the platform</p>`,
+      react: WelcomeEmail({ name: fullName }),
     },
   })
 
@@ -62,7 +63,7 @@ export const { POST } = serve<InitialData>(async (context) => {
             from: 'Antonio F Nelson <contact@antonionelson.tech>',
             to: [email],
             subject: 'Are you still with us?',
-            html: `<p>Hey ${fullName}, we noticed you haven't been around lately. We're here if you need anything!</p>`,
+            react: WelcomeEmail({ name: fullName }),
           },
         })
       })

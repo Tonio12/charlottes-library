@@ -94,7 +94,7 @@ const signUp = async (credentials: AuthCredentials) => {
 
     const workflowClient = getWorkflowClient()
     await workflowClient.trigger({
-      url: `${config.env.prodApiUrl}/api/workflow/onboarding?x-vercel-protection-bypass=${config.env.vercelAutomationBypassSecret}`,
+      url: `${config.env.prodApiUrl}/api/workflow/onboarding`,
       body: {
         email,
         fullName,
