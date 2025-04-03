@@ -48,6 +48,9 @@ export const burrowBook = async (params: BurrowBookParams) => {
         bookId,
         dueDate,
       },
+      headers: {
+        Authorization: `Bearer ${config.env.upstash.qstashToken}`,
+      },
     })
 
     return {
