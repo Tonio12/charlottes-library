@@ -4,6 +4,7 @@ import WelcomeEmail from '@/src/emails/Welcome'
 import config from '@/src/lib/config'
 import { serve } from '@upstash/workflow/nextjs'
 import { eq } from 'drizzle-orm'
+import { render } from '@react-email/render'
 
 type InitialData = {
   email: string
@@ -38,13 +39,15 @@ const getUserState = async (email: string): Promise<UserState> => {
 export const { POST } = serve<InitialData>(async (context) => {
   const { email, fullName } = context.requestPayload
 
+  const welcomeEmailHtml = render(WelcomeEmail({ name: fullName }))
+
   await context.api.resend.call('send email', {
     token: config.env.resendToken,
     body: {
       from: 'Antonio F Nelson <contact@antonionelson.tech>',
       to: [email],
       subject: 'Welcome to the platform',
-      react: WelcomeEmail({ name: fullName }),
+      html: welcomeEmailHtml,
     },
   })
 
@@ -57,13 +60,14 @@ export const { POST } = serve<InitialData>(async (context) => {
 
     if (state === 'non-active') {
       await context.run('send-email-non-active', async () => {
+        const reminderEmailHtml = render(WelcomeEmail({ name: fullName }))
         await context.api.resend.call('send email', {
           token: config.env.resendToken,
           body: {
             from: 'Antonio F Nelson <contact@antonionelson.tech>',
             to: [email],
             subject: 'Are you still with us?',
-            react: WelcomeEmail({ name: fullName }),
+            html: reminderEmailHtml,
           },
         })
       })
