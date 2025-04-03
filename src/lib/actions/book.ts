@@ -50,6 +50,7 @@ export const burrowBook = async (params: BurrowBookParams) => {
       },
       headers: {
         'x-vercel-protection-bypass': config.env.vercelAutomationBypassSecret,
+        Authorization: `Bearer ${config.env.upstash.qstashToken}`,
       },
     })
 
