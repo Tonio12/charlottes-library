@@ -92,14 +92,16 @@ const signUp = async (credentials: AuthCredentials) => {
       universityCard,
     })
 
-    console.log(config.env.prodApiUrl)
-
     const workflowClient = getWorkflowClient()
     await workflowClient.trigger({
       url: `${config.env.prodApiUrl}/api/workflow/onboarding?x-vercel-protection-bypass=${config.env.vercelAutomationBypassSecret}`,
       body: {
         email,
         fullName,
+      },
+      headers: {
+        'x-vercel-protection-bypass': config.env.vercelAutomationBypassSecret,
+        Authorization: `Bearer ${config.env.upstash.qstashToken}`,
       },
     })
 
