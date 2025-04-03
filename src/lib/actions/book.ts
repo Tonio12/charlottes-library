@@ -42,7 +42,7 @@ export const burrowBook = async (params: BurrowBookParams) => {
 
     const workflowClient = getWorkflowClient()
     await workflowClient.trigger({
-      url: `${config.env.prodApiUrl}/api/workflow/burrow-reminder`,
+      url: `${config.env.prodApiUrl}/api/workflow/burrow-reminder?x-vercel-protection-bypass=${config.env.vercelAutomationBypassSecret}`,
       body: {
         userId,
         bookId,

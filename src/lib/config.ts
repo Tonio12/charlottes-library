@@ -16,6 +16,7 @@ const config = {
       qstashCurrentSigningToken: process.env.QSTASH_CURRENT_SIGNING_TOKEN!,
     },
     resendToken: process.env.RESEND_TOKEN!,
+    vercelAutomationBypassSecret: process.env.VERCEL_AUTOMATION_BYPASS_SECRET!,
   },
 }
 
