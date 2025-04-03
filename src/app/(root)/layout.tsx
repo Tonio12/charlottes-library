@@ -9,14 +9,16 @@ import React from 'react'
 
 async function layout({ children }: { children: React.ReactNode }) {
   const session = await auth()
-  if (!session) {
+  if (!session || !session.user) {
     redirect('/sign-in')
   }
+
+  console.log('Session', session)
+  console.log('Session User', session.user)
 
   after(async () => {
     if (!session?.user?.id) return
 
-    //get users and session and update lastActivityDate
     const user = await db
       .select()
       .from(usersTable)

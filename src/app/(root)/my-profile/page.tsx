@@ -17,6 +17,8 @@ const page = async () => {
     .where(eq(usersTable.id, user!.id!))
     .limit(1)
 
+  console.log('User Details', userDetails)
+
   return (
     <>
       <form
