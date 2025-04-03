@@ -4,7 +4,9 @@ import WelcomeEmail from '@/src/emails/Welcome'
 import config from '@/src/lib/config'
 import { serve } from '@upstash/workflow/nextjs'
 import { eq } from 'drizzle-orm'
-import { render } from '@react-email/render'
+import { Resend } from 'resend'
+
+const resend = new Resend(config.env.resendToken)
 
 type InitialData = {
   email: string
@@ -39,16 +41,13 @@ const getUserState = async (email: string): Promise<UserState> => {
 export const { POST } = serve<InitialData>(async (context) => {
   const { email, fullName } = context.requestPayload
 
-  const welcomeEmailHtml = render(WelcomeEmail({ name: fullName }))
-
-  await context.api.resend.call('send email', {
-    token: config.env.resendToken,
-    body: {
+  await await context.run('send-welcome-email', async () => {
+    await resend.emails.send({
       from: 'Antonio F Nelson <contact@antonionelson.tech>',
       to: [email],
-      subject: 'Welcome to the platform',
-      html: welcomeEmailHtml,
-    },
+      subject: 'Welcome to the BookWise',
+      react: WelcomeEmail({ name: fullName }),
+    })
   })
 
   await context.sleep('wait-for-3-days', 60 * 60 * 24 * 3)
@@ -60,15 +59,11 @@ export const { POST } = serve<InitialData>(async (context) => {
 
     if (state === 'non-active') {
       await context.run('send-email-non-active', async () => {
-        const reminderEmailHtml = render(WelcomeEmail({ name: fullName }))
-        await context.api.resend.call('send email', {
-          token: config.env.resendToken,
-          body: {
-            from: 'Antonio F Nelson <contact@antonionelson.tech>',
-            to: [email],
-            subject: 'Are you still with us?',
-            html: reminderEmailHtml,
-          },
+        await resend.emails.send({
+          from: 'Antonio F Nelson <contact@antonionelson.tech>',
+          to: [email],
+          subject: 'Are you still with us?',
+          html: `<p>Hey ${fullName}, we miss you!</p>`,
         })
       })
     } else if (state === 'active') {
