@@ -13,9 +13,12 @@ import {
 import * as React from 'react'
 import config from '../lib/config'
 
-const baseUrl = config.env.prodApiUrl || ''
+const imageUrl =
+  config.nodeEnv === 'development'
+    ? '/static/logo.png'
+    : `${config.env.prodApiUrl}/logo.png`
 
-export default function WelcomeEmail({
+export default function BurrowSuccessEmail({
   book,
   name,
 }: {
@@ -32,7 +35,7 @@ export default function WelcomeEmail({
                 className="inline-block"
                 alt="Logo"
                 height="20"
-                src={`${baseUrl}/static/logo.png`}
+                src={imageUrl}
               />
             </Column>
             <Column align="right">
@@ -44,11 +47,11 @@ export default function WelcomeEmail({
           <Hr />
           <Container align="left">
             <Text className="text-white text-xl">
-              ${book.title} burrowed successfully
+              {book.title} burrowed successfully
             </Text>
             <Text className="mt-4 text-white">Hi {name},</Text>
             <Text className="mt-3 text-white">
-              You have successfully burrowed ${book.title}. Please return it on
+              You have successfully burrowed {book.title}. Please return it on
               time. Login to BookWise to manage your burrowed books.
             </Text>
 

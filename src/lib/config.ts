@@ -1,4 +1,5 @@
 const config = {
+  nodeEnv: process.env.NODE_ENV!,
   env: {
     apiUrl: process.env.NEXT_PUBLIC_API_URL!,
     prodApiUrl: process.env.NEXT_PUBLIC_PROD_API_URL!,
