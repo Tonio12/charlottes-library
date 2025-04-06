@@ -12,6 +12,8 @@ import {
 import * as React from 'react'
 import config from '../lib/config'
 
+const baseUrl = config.env.prodApiUrl || ''
+
 export default function WelcomeEmail({ name }: { name: string }) {
   return (
     <Html>
@@ -23,7 +25,7 @@ export default function WelcomeEmail({ name }: { name: string }) {
                 className="inline-block"
                 alt="Logo"
                 height="20"
-                src="/static/logo.png"
+                src={`${baseUrl}/static/logo.png`}
               />
             </Column>
             <Column align="right">

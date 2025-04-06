@@ -9,7 +9,11 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components'
+
 import * as React from 'react'
+import config from '../lib/config'
+
+const baseUrl = config.env.prodApiUrl || ''
 
 export default function WelcomeEmail({
   book,
@@ -28,7 +32,7 @@ export default function WelcomeEmail({
                 className="inline-block"
                 alt="Logo"
                 height="20"
-                src="/static/logo.png"
+                src={`${baseUrl}/static/logo.png`}
               />
             </Column>
             <Column align="right">
