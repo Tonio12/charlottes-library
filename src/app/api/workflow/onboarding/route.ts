@@ -1,5 +1,7 @@
 import { db } from '@/database/drizzle'
 import { usersTable } from '@/database/schema'
+import ActiveUser from '@/src/emails/ActiveUser'
+import NonActiveUser from '@/src/emails/NonActiveUser'
 import WelcomeEmail from '@/src/emails/Welcome'
 import config from '@/src/lib/config'
 import { serve } from '@upstash/workflow/nextjs'
@@ -41,7 +43,7 @@ const getUserState = async (email: string): Promise<UserState> => {
 export const { POST } = serve<InitialData>(async (context) => {
   const { email, fullName } = context.requestPayload
 
-  await await context.run('send-welcome-email', async () => {
+  await context.run('send-welcome-email', async () => {
     await resend.emails.send({
       from: 'Antonio F Nelson <contact@antonionelson.tech>',
       to: [email],
@@ -63,7 +65,7 @@ export const { POST } = serve<InitialData>(async (context) => {
           from: 'Antonio F Nelson <contact@antonionelson.tech>',
           to: [email],
           subject: 'Are you still with us?',
-          html: `<p>Hey ${fullName}, we miss you!</p>`,
+          react: NonActiveUser({ name: fullName }),
         })
       })
     } else if (state === 'active') {
@@ -74,7 +76,7 @@ export const { POST } = serve<InitialData>(async (context) => {
             from: 'Antonio F Nelson <contact@antonionelson.tech>',
             to: [email],
             subject: 'Welcome Back!',
-            html: `<p>Hey ${fullName}, good to see you again!</p>`,
+            react: ActiveUser({ name: fullName }),
           },
         })
       })

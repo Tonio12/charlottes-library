@@ -1,8 +1,12 @@
 import { db } from '@/database/drizzle'
 import { booksTable, usersTable } from '@/database/schema'
+import BurrowSuccess from '@/src/emails/BurrowSuccess'
 import config from '@/src/lib/config'
 import { serve } from '@upstash/workflow/nextjs'
 import { eq } from 'drizzle-orm'
+import { Resend } from 'resend'
+
+const resend = new Resend(config.env.resendToken)
 
 type InitialData = {
   userId: string
@@ -24,14 +28,13 @@ export const { POST } = serve<InitialData>(async (context) => {
     .where(eq(booksTable.id, bookId))
     .limit(1)
 
-  await context.api.resend.call('send email', {
-    token: config.env.resendToken,
-    body: {
+  await context.run('send email', async () => {
+    await resend.emails.send({
       from: 'Antonio F Nelson <contact@antonionelson.tech>',
       to: [user[0].email],
-      subject: `${book[0].title} burrowed Successfully`,
-      html: `<p>You have successfully borrowed ${book[0].title} from the library. Please return it on ${dueDate}</p>`,
-    },
+      subject: `${book[0].title} Reminder - Return Date: ${dueDate}`,
+      react: BurrowSuccess({ book: book[0], name: user[0].fullName }),
+    })
   })
 
   const reminderDate = new Date(dueDate)
@@ -54,13 +57,12 @@ export const { POST } = serve<InitialData>(async (context) => {
 
   await context.sleep('await-return-date', 24 * 60 * 60)
 
-  await context.api.resend.call('send email', {
-    token: config.env.resendToken,
-    body: {
+  await context.run('send-reminder-email', async () => {
+    await resend.emails.send({
       from: 'Antonio F Nelson <contact@antonionelson.tech>',
       to: [user[0].email],
       subject: `${book[0].title} Reminder - Return Date: ${dueDate}`,
-      html: `<p>The book ${book[0].title} is due on ${dueDate}. Please return it on time.</p>`,
-    },
+      react: BurrowSuccess({ book: book[0], name: user[0].fullName }),
+    })
   })
 })
