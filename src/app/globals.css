@@ -332,3 +332,11 @@
 .select-item {
   @apply focus:bg-dark-600 focus:text-light-100;
 }
+
+.admin-table_header {
+  @apply bg-light-300 hover:bg-light-300 text-dark-200 dark:text-dark-200;
+}
+
+.admin-table_row {
+  @apply hover:bg-light-300 hover:text-dark-300 dark:hover:bg-light-300 dark:hover:text-dark-300;
+}

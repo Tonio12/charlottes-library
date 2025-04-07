@@ -45,4 +45,8 @@ interface User {
   email: string
   universityId: number
   universityCard: string
+  id: string
+  createdAt: Date
+  status: USER_STATUS_ENUM
+  role: USER_ROLE_ENUM
 }
