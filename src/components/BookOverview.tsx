@@ -27,11 +27,6 @@ const BookOverview = async ({
     .from(usersTable)
     .where(eq(usersTable.id, userId))
 
-  const burrowingEligibility = {
-    isEligible: availableCopies > 0 && user?.status === 'APPROVED',
-    message:
-      availableCopies > 0 ? 'You can borrow this book' : 'No copies available',
-  }
   return (
     <section className="book-overview">
       <div className="flex flex-1 flex-col gap-5">
@@ -60,13 +55,7 @@ const BookOverview = async ({
 
         <p className="book-description">{description}</p>
 
-        {user && (
-          <BurrowBook
-            bookId={id}
-            userId={userId}
-            burrowingEligibility={burrowingEligibility}
-          />
-        )}
+        {user && <BurrowBook bookId={id} userId={userId} />}
       </div>
 
       <div className="relative flex flex-1 justify-center">
