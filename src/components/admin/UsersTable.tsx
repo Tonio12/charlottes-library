@@ -6,14 +6,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
 
 import React from 'react'
 import { Badge } from '../ui/badge'
 import { getNumOfBurrowedBook } from '@/src/lib/actions/users'
 import Link from 'next/link'
 import config from '@/src/lib/config'
-import { Trash2 } from 'lucide-react'
+import { DeleteUserDialog } from './DeleteUserDialog'
 
 const UsersTable = ({ users }: { users: User[] }) => {
   return (
@@ -63,12 +62,7 @@ const UsersTable = ({ users }: { users: User[] }) => {
                 </Link>
               </TableCell>
               <TableCell>
-                <Button
-                  className="bg-transparent hover:bg-transparent"
-                  size="sm"
-                >
-                  <Trash2 color="red" className="w-4 h-4" />
-                </Button>
+                <DeleteUserDialog />
               </TableCell>
             </TableRow>
           )

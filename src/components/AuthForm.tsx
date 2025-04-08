@@ -27,6 +27,7 @@ import { FIELD_NAMES, FIELD_TYPES } from '@/src/constants'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import FileUpload from './FileUpload'
+import { Loader2 } from 'lucide-react'
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>
@@ -49,6 +50,8 @@ const AuthForm = <T extends FieldValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>,
   })
+
+  const { isSubmitting } = form.formState
 
   const handleSubmit: SubmitHandler<T> = async (data) => {
     const result = await onSubmit(data)
@@ -119,8 +122,14 @@ const AuthForm = <T extends FieldValues>({
             />
           ))}
 
-          <Button type="submit" className="form-btn">
-            {isSignIn ? 'Sign In' : 'Sign Up'}
+          <Button disabled={isSubmitting} type="submit" className="form-btn">
+            {isSubmitting ? (
+              <Loader2 className="animate-spin" />
+            ) : isSignIn ? (
+              'Sign In'
+            ) : (
+              'Sign Up'
+            )}
           </Button>
         </form>
       </Form>
