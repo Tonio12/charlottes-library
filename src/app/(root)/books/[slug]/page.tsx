@@ -36,7 +36,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
       <BookOverview {...bookDetails} userId={session?.user?.id as string} />
 
       <div className="book-details">
-        <div className="flex-[1_1_0%]">
+        <div className="flex-[1_1_50%]">
           <section className="flex flex-col gap-7">
             <h3>Video</h3>
             <BookVideo videoUrl={bookDetails.videoUrl} />
