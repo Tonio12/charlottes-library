@@ -11,24 +11,13 @@ import { useRouter } from 'next/navigation'
 interface Props {
   bookId: string
   userId: string
-  burrowingEligibility: {
-    isEligible: boolean
-    message: string
-  }
 }
 
-const BurrowBook = ({
-  bookId,
-  userId,
-  burrowingEligibility: { isEligible, message },
-}: Props) => {
+const BurrowBook = ({ bookId, userId }: Props) => {
   const router = useRouter()
   const [borrowing, setBorrowing] = useState(false)
 
   const handleBurrow = async () => {
-    if (!isEligible) {
-      toast.error(message)
-    }
     setBorrowing(true)
 
     try {
@@ -37,10 +26,10 @@ const BurrowBook = ({
         toast.success('Book borrowed successfully')
         router.push(`/my-profile`)
       } else {
-        toast.error('Something went wrong')
+        toast.error(res.error)
       }
     } catch {
-      toast.error('Something went wrong')
+      toast.error('Something went wrong! Please try again later.')
     } finally {
       setBorrowing(false)
     }

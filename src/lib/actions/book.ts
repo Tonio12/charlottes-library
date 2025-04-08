@@ -1,7 +1,7 @@
 'use server'
 
 import { db } from '@/database/drizzle'
-import { booksTable, burrowRecords } from '@/database/schema'
+import { booksTable, burrowRecords, usersTable } from '@/database/schema'
 import { eq } from 'drizzle-orm'
 import dayjs from 'dayjs'
 import { getWorkflowClient } from '../workflow'
@@ -21,6 +21,19 @@ export const burrowBook = async (params: BurrowBookParams) => {
       return {
         success: false,
         error: 'Book not available',
+      }
+    }
+
+    const user = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, userId))
+      .limit(1)
+
+    if (user[0].status !== 'APPROVED') {
+      return {
+        success: false,
+        error: 'Your account is not approved yet!',
       }
     }
 
